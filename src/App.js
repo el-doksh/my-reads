@@ -2,7 +2,6 @@ import "./App.css";
 import { useState } from "react";
 import List from "./Books/List";
 import Search from "./Books/Search";
-import * as BooksAPI from './utils/BooksAPI';
 
 function App() {
   const [showSearchPage, setShowSearchpage] = useState(false);
