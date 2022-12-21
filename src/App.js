@@ -6,14 +6,11 @@ import * as BooksAPI from './utils/BooksAPI';
 
 function App() {
   const [showSearchPage, setShowSearchpage] = useState(false);
-  const onSearchBook = async (query) => {
-      const res = await BooksAPI.search(query, 10);
-      console.log('serch', res);
-  }
+  
   return (
-    <div className="app">
-      {showSearchPage ? <Search setShowSearchpage={setShowSearchpage} onSearchBook={onSearchBook} /> : <List setShowSearchpage={setShowSearchpage} />}
-    </div>
+      <div className="app">
+          {showSearchPage ? <Search setShowSearchpage={setShowSearchpage} /> : <List setShowSearchpage={setShowSearchpage} />}
+      </div>
   );
 }
 

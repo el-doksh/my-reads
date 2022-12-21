@@ -2,9 +2,10 @@ import { useState } from "react";
 import Book from "./Book";
 import * as BooksAPI from '../utils/BooksAPI';
 
-const Search = ({setShowSearchpage, onSearchBook}) => {
+const Search = ({setShowSearchpage}) => {
 
     const [booksList, setBooksList] = useState([]);
+    
     const SearchHandler = async (event) => {
         const res = await BooksAPI.search(event.target.value, 10);
         setBooksList(res);
