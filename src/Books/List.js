@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import * as BooksAPI from '../utils/BooksAPI';
 import BookShelf from "./BookShelf";
+import { Link } from 'react-router-dom';
 
-const List = ({setShowSearchpage}) => {
+const List = () => {
     const [currentlyReadingBooks, setCurrentlyReadingBooks] = useState([]);
     const [wantToReadBooks, setWantToReadBooks] = useState([]);
     const [readBooks, setReadBooks] = useState([]);
@@ -34,7 +35,24 @@ const List = ({setShowSearchpage}) => {
         await BooksAPI.update(book, value);
         getBooksList()
     }
-    
+
+    const bookShelves = [
+        {
+            id:"1",
+            title:"Currently Reading",
+            books:currentlyReadingBooks,
+        },
+        {
+            id:"2",
+            title:"Want to Read",
+            books:wantToReadBooks,
+        },
+        {
+            id:"3",
+            title:"Read",
+            books:readBooks,
+        },
+    ];
 
     return (
         <div className="list-books">
@@ -43,13 +61,16 @@ const List = ({setShowSearchpage}) => {
             </div>
             <div className="list-books-content">
                 <div>
-                    <BookShelf key="Currently Reading" title="Currently Reading" books={currentlyReadingBooks} onUpdateBook={updateBook}/>
-                    <BookShelf key="Want to Read" title="Want to Read" books={wantToReadBooks} onUpdateBook={updateBook}/>
-                    <BookShelf key="Read" title="Read" books={readBooks} onUpdateBook={updateBook}/>
+                    {bookShelves.map((bookShelve) => {
+                            return  <BookShelf key={bookShelve.id} title={bookShelve.title} books={bookShelve.books} onUpdateBook={updateBook}/>
+                        }
+                    )}
                 </div>
             </div>
             <div className="open-search">
-                <a onClick={() => setShowSearchpage(true)}>Search for a book</a>
+                <Link to="/search">
+                    Search for a book
+                </Link>
             </div>
         </div>
     );

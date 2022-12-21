@@ -1,15 +1,40 @@
 import { useState } from "react";
 import Book from "./Book";
 import * as BooksAPI from '../utils/BooksAPI';
+import { Link } from "react-router-dom";
 
-const Search = ({setShowSearchpage}) => {
+const Search = () => {
 
     const [booksList, setBooksList] = useState([]);
-    
+
     const SearchHandler = async (event) => {
-        const res = await BooksAPI.search(event.target.value, 10);
-        setBooksList(res);
+        const query = event.target.value;
+        if(query === ""){
+            setBooksList([]);
+        } else {
+            await BooksAPI.search(query, 10).then((res) => {
+                const searchReturnedBooks = res;
+                if(searchReturnedBooks.error) {
+                    setBooksList([]);
+                } else {
+                    BooksAPI.getAll().then((mainBooks) => {
+                        searchReturnedBooks.map((book) => {
+                            const foundBook = mainBooks.find((mainBook) => {
+                                return mainBook.id == book.id;
+                            });
+                            if(foundBook){
+                                book['shelf'] = foundBook.shelf;
+                            } else{
+                                book['shelf'] = 'none';
+                            }
+                        })
+                    });
+                    setBooksList(searchReturnedBooks);
+                }
+            })
+        }
     }
+    
     const onUpdateBook = async (book, value) => {
         await BooksAPI.update(book, value);
     }
@@ -17,13 +42,11 @@ const Search = ({setShowSearchpage}) => {
     return (
         <div className="search-books">
             <div className="search-books-bar">
-                <a className="close-search"
-                    onClick={() => setShowSearchpage(false)}
-                    >
+                <Link to="/" className="close-search">
                     Close
-                </a>
+                </Link>
                 <div className="search-books-input-wrapper">
-                    <input type="text" placeholder="Search by title, author, or ISBN" onChange={SearchHandler}/>
+                    <input type="text" placeholder="Search by title, author, or ISBN" onKeyDown={SearchHandler}/>
                 </div>
             </div>
             <div className="search-books-results">
