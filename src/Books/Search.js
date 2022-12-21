@@ -20,12 +20,12 @@ const Search = () => {
                     BooksAPI.getAll().then((mainBooks) => {
                         searchReturnedBooks.map((book) => {
                             const foundBook = mainBooks.find((mainBook) => {
-                                return mainBook.id == book.id;
+                                return mainBook.id === book.id;
                             });
                             if(foundBook){
-                                book['shelf'] = foundBook.shelf;
+                                book.shelf = foundBook.shelf;
                             } else{
-                                book['shelf'] = 'none';
+                                book.shelf = 'none';
                             }
                         })
                         setBooksList(searchReturnedBooks);
