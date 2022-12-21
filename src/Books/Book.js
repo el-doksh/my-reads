@@ -1,11 +1,9 @@
-// import { useEffect } from "react";
-import * as BooksAPI from '../utils/BooksAPI';
 
-const Book = ({book}) => {
+const Book = ({book, onUpdateBook}) => {
     const updateBookHandler = async (event) => {
-        await BooksAPI.update(book.id, event.target.value);
-        console.log(book.id, event.target.value);
+        onUpdateBook(book, event.target.value)
     }
+
     return (
         <li>
             <div className="book">
@@ -18,8 +16,8 @@ const Book = ({book}) => {
                         }}>
                     </div>
                     <div className="book-shelf-changer">
-                        <select onChange={updateBookHandler}>
-                            <option value="none" disabled>Move to...</option>
+                        <select onChange={updateBookHandler} defaultValue={book.shelf}>
+                            <option value="none" disabled >Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
                             <option value="read">Read</option>

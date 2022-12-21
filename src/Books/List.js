@@ -3,52 +3,38 @@ import * as BooksAPI from '../utils/BooksAPI';
 import BookShelf from "./BookShelf";
 
 const List = ({setShowSearchpage}) => {
-    const [booksList, setBooksList] = useState([]);
     const [currentlyReadingBooks, setCurrentlyReadingBooks] = useState([]);
     const [wantToReadBooks, setWantToReadBooks] = useState([]);
     const [readBooks, setReadBooks] = useState([]);
 
     useEffect(() => {
-
-        const booksData = async () => {
-            const res = await BooksAPI.getAll();
-            setBooksList(res)
-            // setCurrentlyReadingBooks(
-                // res.filter((book) => {
-                // return book.shelf === "currentlyReading";
-                // })
-            // )
-            // setWantToReadBooks(
-            //     res.filter((book) => {
-            //     return book.shelf === "wantToRead";
-            //     })
-            // )
-            // setReadBooks(
-            //     res.filter((book) => {
-            //     return book.shelf === "read";
-            //     })
-            // )
-        }
-        booksData()
+        getBooksList()
     }, [])
 
-     setCurrentlyReadingBooks(
-                booksList.filter((book) => {
+    const getBooksList = async () => {
+        const res = await BooksAPI.getAll();
+        setCurrentlyReadingBooks(
+            res.filter((book) => {
                 return book.shelf === "currentlyReading";
-                })
-            )
-            setWantToReadBooks(
-                booksList.filter((book) => {
+            })
+        )
+        setWantToReadBooks(
+            res.filter((book) => {
                 return book.shelf === "wantToRead";
-                })
-            )
-            setReadBooks(
-                booksList.filter((book) => {
+            })
+        )
+        setReadBooks(
+            res.filter((book) => {
                 return book.shelf === "read";
-                })
-            )
-        
-    console.log(booksList);
+            })
+        )
+    }
+
+    const updateBook = async (book, value) => {
+        await BooksAPI.update(book, value);
+        getBooksList()
+    }
+    
 
     return (
         <div className="list-books">
@@ -57,13 +43,9 @@ const List = ({setShowSearchpage}) => {
             </div>
             <div className="list-books-content">
                 <div>
-                    {/* { booksList.filter((book) => {
-                        return book.shelf === "currentlyReading";
-                    })
-                    } */}
-                    <BookShelf key="Currently Reading" title="Currently Reading" books={currentlyReadingBooks}/>
-                    <BookShelf key="Want to Read" title="Want to Read" books={wantToReadBooks}/>
-                    <BookShelf key="Read" title="Read" books={readBooks}/>
+                    <BookShelf key="Currently Reading" title="Currently Reading" books={currentlyReadingBooks} onUpdateBook={updateBook}/>
+                    <BookShelf key="Want to Read" title="Want to Read" books={wantToReadBooks} onUpdateBook={updateBook}/>
+                    <BookShelf key="Read" title="Read" books={readBooks} onUpdateBook={updateBook}/>
                 </div>
             </div>
             <div className="open-search">
