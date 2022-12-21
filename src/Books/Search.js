@@ -28,8 +28,8 @@ const Search = () => {
                                 book['shelf'] = 'none';
                             }
                         })
+                        setBooksList(searchReturnedBooks);
                     });
-                    setBooksList(searchReturnedBooks);
                 }
             })
         }
