@@ -12,23 +12,20 @@ const Search = () => {
         if(query === ""){
             setBooksList([]);
         } else {
-            await BooksAPI.search(query, 10).then((res) => {
-                const searchReturnedBooks = res;
-                if(searchReturnedBooks.error) {
+            await BooksAPI.search(query, 10).then((searchResult) => {
+                if(searchResult.error) {
                     setBooksList([]);
                 } else {
-                    BooksAPI.getAll().then((mainBooks) => {
-                        searchReturnedBooks.map((book) => {
-                            const foundBook = mainBooks.find((mainBook) => {
-                                return mainBook.id === book.id;
-                            });
-                            if(foundBook){
-                                book.shelf = foundBook.shelf;
-                            } else{
-                                book.shelf = 'none';
-                            }
+                    BooksAPI.getAll().then((books) => {
+                        const comparedBooks = searchResult?.map((b) => {
+                        const bookTest = books?.find(x => x.id === b.id) 
+                            if(bookTest)
+                                b.shelf = bookTest.shelf
+                                else
+                                b.shelf = "none" 
+                            return b 
                         })
-                        setBooksList(searchReturnedBooks);
+                        setBooksList(comparedBooks);
                     });
                 }
             })
@@ -46,7 +43,7 @@ const Search = () => {
                     Close
                 </Link>
                 <div className="search-books-input-wrapper">
-                    <input type="text" placeholder="Search by title, author, or ISBN" onKeyDown={SearchHandler}/>
+                    <input type="text" placeholder="Search by title, author, or ISBN" onChange={SearchHandler}/>
                 </div>
             </div>
             <div className="search-books-results">
