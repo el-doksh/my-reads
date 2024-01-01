@@ -1,0 +1,30 @@
+
+.visibility-wrapper {
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+    // height: 500px;
+    height: 700px;
+
+    .left-bar {
+        width: 70%;
+        overflow: scroll;
+        .user-container {
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+    }
+
+    .side-bar {  
+        width: 30%; 
+        overflow: scroll;
+        height: 900px;
+        position: fixed;
+        top: 10;
+        right: 0;
+        .user-item {
+            display: flex;
+        }
+    }
+}
