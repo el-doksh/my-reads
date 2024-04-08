@@ -6,6 +6,7 @@ import { ComponentContext1 } from "./Context";
 import { ComponentCallback } from "./Callback";
 import { Visibility } from "./Visibility/Visibility";
 import { CanvasDraw } from "./Canvas/CanvasDraw";
+import { ReactRouter } from "./Section21-Router/ReactRouter";
 
 export const AppRoutes = () => {
     return (
@@ -16,6 +17,7 @@ export const AppRoutes = () => {
             <Route path="/callback" element={ <ComponentCallback />}/>
             <Route path="/react-visibility" element={ <Visibility />}/>
             <Route path="/canvas" element={ <CanvasDraw />}/>
+            <Route path="/section21" element={<ReactRouter />} />
         </Routes>
     )
 }

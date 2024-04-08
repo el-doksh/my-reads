@@ -1,0 +1,11 @@
+@import '../utilities/index';
+
+.reactRouterContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  
+  .header {
+    @extend .font-sans-18;
+  }
+}
